@@ -5,4 +5,4 @@
 Write a program that prints `"Hello World!"` to the screen (standard output).
 
 #### Level 2
-Receive a name from command-line arguments and print `Hello «name»!` to the screen.
+Receive a name from command-line arguments and print `Hello «name»!` to the screen. If no argument is provided, print `Hello World!`
