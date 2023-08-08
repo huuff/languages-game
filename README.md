@@ -8,13 +8,22 @@ Write a program that prints `"Hello World!"` to the screen (standard output).
 Receive a name from command-line arguments and print `Hello «name»!` to the screen. If no argument is provided, print `Hello World!`
 
 #### Level 3
-Print a different greeting depending on the time of the day, that is:
+It takes two command-line arguments:
 
-( TODO: Maybe remove this... it's hard to fake time to test it )
+1. A name to greet.
+2. A language code in ISO 639-1. One of: `en`, `es`, `fr`, `de` or `it`. Choose english if not present.
 
-* Before 12:00 : `Good morning, «name»!`
-* After 12:00 and before 18:00 : `Good afternoon, «name»!`
-* After 18:00 : `Good evening, «name»!`
+Greet the user using the name of the second argument (or `World` if not present) in the provided language. The salutations in each language are:
+
+* `en`: `Hello, «name»!` or `Hello, World!`
+* `es`: `¡Hola, «name»!` or `¡Hola, Mundo!`
+* `fr`: `Bonjour, «name»!` or `Bonjour, le Monde!`
+* `de`: `Hallo, «name»!` or `Hallo, Welt!`
+* `it`: `Ciao, «name»!` or `Ciao, Mondo!`
+
+##### Learning opportunities
+
+* If your programming language has enumerations, they are a good fit to represent locale codes. Also, you can investigate how to turn a locale string provided as an argument into an enumeration value.
 
 ### 002. Fizz Buzz
 #### Level 1
