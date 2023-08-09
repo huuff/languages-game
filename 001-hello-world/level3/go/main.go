@@ -15,26 +15,53 @@ func defaultString(input, defaultValue string) string {
   }
 }
 
+type Language string
+const (
+  Spanish Language = "es"
+  English Language = "en"
+  German Language = "de"
+  Italian Language = "it"
+  French Language = "fr"
+)
+
+func toLanguage(input string) (Language, bool) {
+  switch input {
+  case "es":
+    return Spanish, true
+  case "en":
+    return English, true
+  case "de":
+    return German, true
+  case "it":
+    return Italian, true
+  case "fr":
+    return French, true
+  default:
+    return "", false
+  }
+}
+
 func main() {
-  greeters := map[string] greeterFunction {
-    "es": func(name string) string { 
+  greeters := map[Language] greeterFunction {
+    Spanish: func(name string) string { 
       return fmt.Sprintf("¡Hola, %s!", defaultString(name, "Mundo"))
     },
-    "en": func(name string) string { 
+    English: func(name string) string { 
       return fmt.Sprintf("Hello, %s!", defaultString(name, "World"))
     },
-    "fr": func(name string) string {
+    French: func(name string) string {
       return fmt.Sprintf("Bonjour, %s!", defaultString(name, "le Monde"))
     },
-    "it": func(name string) string { 
+    Italian: func(name string) string { 
       return fmt.Sprintf("Ciao, %s!", defaultString(name, "Mondo"))
     },
-    "de": func(name string) string {
+    German: func(name string) string {
       return fmt.Sprintf("Hallo, %s!", defaultString(name, "Welt"))
     },
   }
 
-  var lang, name string
+  var name string
+  var lang Language
 
   if len(os.Args) > 1 {
     name = os.Args[1]
@@ -42,9 +69,9 @@ func main() {
     name = ""
   }
   if len(os.Args) > 2 {
-    lang = os.Args[2]
+    lang, _ = toLanguage(os.Args[2])
   } else {
-    lang = "en"
+    lang = English
   }
 
   greet, ok := greeters[lang]
