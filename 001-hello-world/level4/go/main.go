@@ -3,7 +3,7 @@ package main
 import (
   "fmt"
   "net/http"
-  "strings"
+  "github.com/gorilla/mux"
 )
 
 type greeterFunction func(name string) string 
@@ -23,6 +23,7 @@ func newHelloHandler(greeters greetersMap) func(w http.ResponseWriter, req *http
     if language == "" {
       language = "en"
     }
+
     greeter, ok := greeters[language]
     if !ok {
       w.WriteHeader(http.StatusBadRequest)
@@ -30,7 +31,8 @@ func newHelloHandler(greeters greetersMap) func(w http.ResponseWriter, req *http
       return
     }
 
-    name := strings.TrimPrefix(req.URL.Path, "/hello/")
+    pathVars := mux.Vars(req)
+    name, _ := pathVars["name"]
 
     fmt.Println(fmt.Sprintf("Language: %s", language))
     fmt.Println(fmt.Sprintf("Name: %s", name))
@@ -58,9 +60,7 @@ func main() {
     },
   }
 
-  // TODO: This is using the default server right? Create a new one
-  // TODO: Won't work without a name or trailing slash
-  // Use a library for it
-  http.HandleFunc("/hello/", newHelloHandler(greeters))
-  http.ListenAndServe(":3333", nil)
+  router := mux.NewRouter()
+  router.HandleFunc("/hello/{name}", newHelloHandler(greeters))
+  http.ListenAndServe(":3333", router)
 }
