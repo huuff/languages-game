@@ -38,7 +38,7 @@ Do it as a web service that:
 Just telling whether a command-line argument is Fizz, Buzz, FizzBuzz or just a number
 
 #### Level 2
-Automatically produce fizzbuzzes at a fixed rate given by command-line args. A good chance to learn blocking threads (e.g. block for 1s)
+Automatically produce fizzbuzzes at a fixed rate given by command-line args in milliseconds. If none is provided, use `1000` by default (1 second). A good chance to learn blocking threads (e.g. block for 1s)
 
 
 ### 003. Currency Conversion Service

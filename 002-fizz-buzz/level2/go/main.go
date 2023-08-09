@@ -2,11 +2,24 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"strconv"
 	"time"
 )
 
 func main() {
-	ticker := time.NewTicker(time.Second)
+	var delay int
+	var err error
+	if len(os.Args) > 1 {
+		delay, err = strconv.Atoi(os.Args[1])
+		if err != nil {
+			fmt.Println("Wrong rate: %s", os.Args[1])
+		}
+	} else {
+		delay = 1000
+	}
+
+	ticker := time.NewTicker(time.Duration(delay) * time.Millisecond)
 
 	tickerChannel := ticker.C
 	numberChannel := make(chan int)
