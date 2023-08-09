@@ -34,24 +34,23 @@ func main() {
     },
   }
 
-  if len(os.Args) > 1 {
-    name := os.Args[1]
-    
-    var lang string
-    if len(os.Args) > 2 {
-      lang = os.Args[2]
-    } else {
-      lang = "en"
-    }
+  var lang, name string
 
-    greet, ok := greeters[lang]
-    if ok {
-      fmt.Println(greet(name))
-    } else {
-      fmt.Println(fmt.Sprintf("Unrecognized language %s", lang))
-    }
+  if len(os.Args) > 1 {
+    name = os.Args[1]
   } else {
-    greeter, _ := greeters["en"]
-    fmt.Println(greeter(""))
+    name = ""
+  }
+  if len(os.Args) > 2 {
+    lang = os.Args[2]
+  } else {
+    lang = "en"
+  }
+
+  greet, ok := greeters[lang]
+  if ok {
+    fmt.Println(greet(name))
+  } else {
+    fmt.Println(fmt.Sprintf("Unrecognized language %s", lang))
   }
 }
