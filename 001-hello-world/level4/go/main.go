@@ -25,8 +25,9 @@ func newHelloHandler(greeters greetersMap) func(w http.ResponseWriter, req *http
     }
     greeter, ok := greeters[language]
     if !ok {
-      // TODO: Return a bad request
-      fmt.Println(fmt.Sprintf("Unrecognized language %s", language))
+      w.WriteHeader(http.StatusBadRequest)
+      fmt.Fprintf(w, "Unrecognized language %s\n", language)
+      return
     }
 
     name := strings.TrimPrefix(req.URL.Path, "/hello/")
