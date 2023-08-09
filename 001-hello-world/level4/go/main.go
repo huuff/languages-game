@@ -7,7 +7,6 @@ import (
 )
 
 type greeterFunction func(name string) string 
-type greetersMap map[string]greeterFunction
 
 func defaultString(input, defaultValue string) string {
   if input != "" {
@@ -17,11 +16,42 @@ func defaultString(input, defaultValue string) string {
   }
 }
 
+// TODO: Put it in another file
+type Language string
+const (
+  Spanish Language = "es"
+  English Language = "en"
+  German Language = "de"
+  Italian Language = "it"
+  French Language = "fr"
+)
+type greetersMap map[Language]greeterFunction
+
+func toLanguage(input string) (Language, bool) {
+  switch input {
+  case "es":
+    return Spanish, true
+  case "en":
+    return English, true
+  case "de":
+    return German, true
+  case "it":
+    return Italian, true
+  case "fr":
+    return French, true
+  default:
+    return "", false
+  }
+}
+
 func newHelloHandler(greeters greetersMap) func(w http.ResponseWriter, req *http.Request) {
   return func(w http.ResponseWriter, req *http.Request) {
-    language := req.Header.Get("Accept-Language")
-    if language == "" {
-      language = "en"
+    headerLanguage := req.Header.Get("Accept-Language")
+    var language Language
+    if headerLanguage != "" {
+      language, _ = toLanguage(headerLanguage) 
+    } else {
+      language = English
     }
 
     greeter, ok := greeters[language]
@@ -41,21 +71,20 @@ func newHelloHandler(greeters greetersMap) func(w http.ResponseWriter, req *http
 }
 
 func main() {
-  // TODO: Use an iota for the language values (also in level3)
-  greeters := greetersMap {
-    "es": func(name string) string { 
+  greeters := map[Language] greeterFunction {
+    Spanish: func(name string) string { 
       return fmt.Sprintf("¡Hola, %s!", defaultString(name, "Mundo"))
     },
-    "en": func(name string) string { 
+    English: func(name string) string { 
       return fmt.Sprintf("Hello, %s!", defaultString(name, "World"))
     },
-    "fr": func(name string) string {
+    French: func(name string) string {
       return fmt.Sprintf("Bonjour, %s!", defaultString(name, "le Monde"))
     },
-    "it": func(name string) string { 
+    Italian: func(name string) string { 
       return fmt.Sprintf("Ciao, %s!", defaultString(name, "Mondo"))
     },
-    "de": func(name string) string {
+    German: func(name string) string {
       return fmt.Sprintf("Hallo, %s!", defaultString(name, "Welt"))
     },
   }

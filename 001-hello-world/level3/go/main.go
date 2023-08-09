@@ -15,6 +15,7 @@ func defaultString(input, defaultValue string) string {
   }
 }
 
+// TODO: Put it in another file
 type Language string
 const (
   Spanish Language = "es"
