@@ -1,4 +1,4 @@
-module haff.xyz/hello/level4
+module hello/level4
 
 go 1.20
 
