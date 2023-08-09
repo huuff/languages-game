@@ -24,7 +24,7 @@ Greet the user using the name of the second argument (or the language equivalent
 ##### Learning opportunities
 * If your programming language has enumerations, they are a good fit to represent locale codes. Also, you can investigate how to turn a locale string provided as an argument into an enumeration value.
 
-##### Level 4
+#### Level 4
 Do it as a web service that:
 
 * Receives the language in the `Accept-Language` header. If no language is received, default to english. If more than one language is provided, use only the first one.
