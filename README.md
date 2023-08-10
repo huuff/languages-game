@@ -40,7 +40,7 @@ Just telling whether a command-line argument is Fizz, Buzz, FizzBuzz or just a n
 #### Level 2
 Automatically produce fizzbuzzes at a fixed rate given by command-line args in milliseconds. If none is provided, use `1000` by default (1 second). A good chance to learn blocking threads (e.g. block for 1s)
 
-### 003. Unit Conversion Service
+### 003. Unit Conversions
 #### Level 1
 Receive three command-line arguments (anything else will be considered an error): `«input measure» to «output unit»`:
 
