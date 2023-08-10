@@ -49,4 +49,4 @@ Some ideas:
 * Parse major, minor and patch
 * Increase major, minor or patch
 * Check whether one version is afer another
-* Given a list of expressions (maybe as a file?) parse a NPM version expresion (https://docs.npmjs.com/about-semantic-versioning#using-semantic-versioning-to-specify-update-types-your-package-can-accept) and choose an appropriate one.
+* Given a list of versions (maybe as a file?) parse a NPM version expresion (https://docs.npmjs.com/about-semantic-versioning#using-semantic-versioning-to-specify-update-types-your-package-can-accept) and choose an appropriate one.
