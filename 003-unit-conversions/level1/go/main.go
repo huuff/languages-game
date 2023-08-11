@@ -9,15 +9,14 @@ import (
 
 const usageMessage = "Wrong arguments. Use <amount><source unit> to <target unit>.\n"
 
-// TODO: Should actually parse a float
-func parseNumber(input string) int {
+func parseNumber(input string) float64 {
 	re := regexp.MustCompile(`^\d+`)
 	matches := re.FindStringSubmatch(input)
 	if len(matches) != 1 {
 		panic(fmt.Sprintf("Can't parse the number in `%s`. Expecting 1 match but got `%d`", input, len(matches)))
 	}
 
-	value, err := strconv.Atoi(matches[0])
+	value, err := strconv.ParseFloat(matches[0], 64)
 	if err != nil {
 		panic(fmt.Sprintf("Error converting to string: `%s`", matches[0]))
 	}
@@ -38,6 +37,6 @@ func main() {
 
 	sourceAmount := parseNumber(source)
 
-	fmt.Fprintf(os.Stdout, "Source amount: %d\n", sourceAmount)
+	fmt.Fprintf(os.Stdout, "Source amount: %.2f\n", sourceAmount)
 	fmt.Fprintf(os.Stdout, "Target unit: %s\n", target)
 }
