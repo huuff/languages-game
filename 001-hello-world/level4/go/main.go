@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"hello/level4/language"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -18,16 +17,16 @@ func defaultString(input, defaultValue string) string {
 	}
 }
 
-type greetersMap map[language.Language]greeterFunction
+type greetersMap map[Language]greeterFunction
 
 func newHelloHandler(greeters greetersMap) func(w http.ResponseWriter, req *http.Request) {
 	return func(w http.ResponseWriter, req *http.Request) {
 		headerLanguage := req.Header.Get("Accept-Language")
-		var actualLanguage language.Language
+		var actualLanguage Language
 		if headerLanguage != "" {
-			actualLanguage, _ = language.Parse(headerLanguage)
+			actualLanguage, _ = Parse(headerLanguage)
 		} else {
-			actualLanguage = language.English
+			actualLanguage = English
 		}
 
 		greeter, ok := greeters[actualLanguage]
@@ -46,19 +45,19 @@ func newHelloHandler(greeters greetersMap) func(w http.ResponseWriter, req *http
 
 func main() {
 	greeters := greetersMap{
-		language.Spanish: func(name string) string {
+		Spanish: func(name string) string {
 			return fmt.Sprintf("¡Hola, %s!", defaultString(name, "Mundo"))
 		},
-		language.English: func(name string) string {
+		English: func(name string) string {
 			return fmt.Sprintf("Hello, %s!", defaultString(name, "World"))
 		},
-		language.French: func(name string) string {
+		French: func(name string) string {
 			return fmt.Sprintf("Bonjour, %s!", defaultString(name, "le Monde"))
 		},
-		language.Italian: func(name string) string {
+		Italian: func(name string) string {
 			return fmt.Sprintf("Ciao, %s!", defaultString(name, "Mondo"))
 		},
-		language.German: func(name string) string {
+		German: func(name string) string {
 			return fmt.Sprintf("Hallo, %s!", defaultString(name, "Welt"))
 		},
 	}

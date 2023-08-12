@@ -1,4 +1,4 @@
-package language
+package main
 
 type Language string
 
