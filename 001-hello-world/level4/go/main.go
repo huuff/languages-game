@@ -45,7 +45,7 @@ func newHelloHandler(greeters greetersMap) func(w http.ResponseWriter, req *http
 }
 
 func main() {
-	greeters := map[language.Language]greeterFunction{
+	greeters := greetersMap{
 		language.Spanish: func(name string) string {
 			return fmt.Sprintf("¡Hola, %s!", defaultString(name, "Mundo"))
 		},
