@@ -7,17 +7,15 @@ import (
 	"github.com/gorilla/mux"
 )
 
-type greeterFunction func(name string) string
-
-func defaultString(input, defaultValue string) string {
-	if input != "" {
-		return input
-	} else {
-		return defaultValue
+func main() {
+	app := application{
+		greeters: greeters,
 	}
-}
 
-type greetersMap map[Language]greeterFunction
+	router := mux.NewRouter()
+	router.HandleFunc("/hello/{name}", app.helloHandler)
+	http.ListenAndServe(":3333", router)
+}
 
 type application struct {
 	greeters greetersMap
@@ -43,32 +41,4 @@ func (app *application) helloHandler(w http.ResponseWriter, req *http.Request) {
 	name, _ := pathVars["name"]
 
 	fmt.Fprintf(w, greeter(name)+"\n")
-}
-
-func main() {
-	greeters := greetersMap{
-		Spanish: func(name string) string {
-			return fmt.Sprintf("¡Hola, %s!", defaultString(name, "Mundo"))
-		},
-		English: func(name string) string {
-			return fmt.Sprintf("Hello, %s!", defaultString(name, "World"))
-		},
-		French: func(name string) string {
-			return fmt.Sprintf("Bonjour, %s!", defaultString(name, "le Monde"))
-		},
-		Italian: func(name string) string {
-			return fmt.Sprintf("Ciao, %s!", defaultString(name, "Mondo"))
-		},
-		German: func(name string) string {
-			return fmt.Sprintf("Hallo, %s!", defaultString(name, "Welt"))
-		},
-	}
-
-	app := application{
-		greeters: greeters,
-	}
-
-	router := mux.NewRouter()
-	router.HandleFunc("/hello/{name}", app.helloHandler)
-	http.ListenAndServe(":3333", router)
 }
