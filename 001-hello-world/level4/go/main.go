@@ -14,7 +14,10 @@ func main() {
 
 	router := mux.NewRouter()
 	router.HandleFunc("/hello/{name}", app.helloHandler)
-	http.ListenAndServe(":3333", router)
+  err := http.ListenAndServe(":3333", router)
+  if err != nil {
+    panic(err)
+  }
 }
 
 type application struct {
@@ -40,5 +43,6 @@ func (app *application) helloHandler(w http.ResponseWriter, req *http.Request) {
 	pathVars := mux.Vars(req)
 	name, _ := pathVars["name"]
 
+  w.Header().Set("content-language", string(actualLanguage))
 	fmt.Fprintf(w, greeter(name)+"\n")
 }
