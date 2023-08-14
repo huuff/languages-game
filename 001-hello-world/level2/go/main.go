@@ -6,11 +6,13 @@ import (
 )
 
 func main() {
+  var name string
+
   if len(os.Args) > 1 {
-    name := os.Args[1]
-    result := fmt.Sprintf("Hello %s!", name)
-    fmt.Println(result)
+    name = os.Args[1]
   } else {
-    fmt.Println("Hello World!")
+    name = "World"
   }
+
+  fmt.Printf("Hello %s\n!", name)
 }
