@@ -12,6 +12,12 @@ func handleName(w http.ResponseWriter, r *http.Request) {
   fmt.Fprintf(w, "Hello, %s!\n", name)
 }
 
+func hanldeNoName(w http.ResponseWriter, r *http.Request) {
+  w.WriteHeader(http.StatusOK)
+
+  fmt.Fprintf(w, "Hello, World!")
+}
+
 func main() {
   mux := http.NewServeMux()
   mux.Handle("/hello/", http.StripPrefix("/hello/", http.HandlerFunc(handleName)))
