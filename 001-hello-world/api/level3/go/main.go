@@ -20,7 +20,11 @@ func getLanguage(r *http.Request) (Language, error) {
   }
 }
 
-func handleHelloNoName(w http.ResponseWriter, r *http.Request) {
+type HelloHandler struct { 
+  name string
+}
+
+func (h HelloHandler) handle(w http.ResponseWriter, r *http.Request) {
   language, err := getLanguage(r)
   if err != nil {
     w.WriteHeader(http.StatusBadRequest)
@@ -30,21 +34,16 @@ func handleHelloNoName(w http.ResponseWriter, r *http.Request) {
 
   w.Header().Set("content-language", string(language))
   w.WriteHeader(http.StatusOK)
-  fmt.Fprintf(w, "%s\n", getSalutation("", language))
+  fmt.Fprintf(w, "%s\n", getSalutation(h.name, language))
+}
+
+func handleHelloNoName(w http.ResponseWriter, r *http.Request) {
+  HelloHandler { "" }.handle(w, r)
 }
 
 func handleHelloName(w http.ResponseWriter, r *http.Request) {
   name := r.URL.Path
-  language, err := getLanguage(r)
-  if err != nil {
-    w.WriteHeader(http.StatusBadRequest)
-    fmt.Fprintf(w, "%s\n", err.Error())
-    return
-  }
-
-  w.Header().Set("content-language", string(language))
-  w.WriteHeader(http.StatusOK)
-  fmt.Fprintf(w, "%s\n", getSalutation(name, language))
+  HelloHandler { name }.handle(w, r)
 }
 
 func main() {
