@@ -3,25 +3,35 @@ package main
 import (
   "net/http"
   "fmt"
+  "errors"
 )
 
 func getSalutation(name string, language Language) string {
   return greeters[language](name)
 }
 
-func handleHelloName(w http.ResponseWriter, r *http.Request) {
-  name := r.URL.Path
-  // TODO: Put the language extraction stuff into a different function
+func getLanguage(r *http.Request) (Language, error) {
   language := defaultString(r.Header.Get("accept-language"), "en")
   actualLanguage, ok := Parse(language)
   if !ok {
+    return "", errors.New(fmt.Sprintf("Unrecognized language: %s", language))
+  } else {
+    return actualLanguage, nil
+  }
+}
+
+func handleHelloName(w http.ResponseWriter, r *http.Request) {
+  name := r.URL.Path
+  language, err := getLanguage(r)
+  if err != nil {
     w.WriteHeader(http.StatusBadRequest)
-    fmt.Fprintf(w, "Unrecognized language %s", actualLanguage)
+    fmt.Fprintf(w, "%s\n", err.Error())
     return
   }
 
+  w.Header().Set("content-language", string(language))
   w.WriteHeader(http.StatusOK)
-  fmt.Fprintf(w, "%s\n", getSalutation(name, actualLanguage))
+  fmt.Fprintf(w, "%s\n", getSalutation(name, language))
 }
 
 func main() {
